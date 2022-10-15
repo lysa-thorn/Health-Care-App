@@ -9,21 +9,22 @@ import {
   FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import VideoItem from '../components/MaterialList';
+import MaterialList from '../components/MaterialList';
 import data from '../data.json';
 export default class HomeStackScreen extends Component {
   render(){
     return (
       <View style={styles.container}>
-      <View style={styles.body}>
+        <MaterialList />
+      {/* <View style={styles.body}>
         <FlatList
         data={data.items}
-        renderItem={(video)=><VideoItem video={video.item} />}
+        renderItem={(video)=><MaterialList video={video.item} />}
         keyExtractor={(item)=>item.id}
         ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}
 
          />
-      </View>
+      </View> */}
     </View>
     );
   }

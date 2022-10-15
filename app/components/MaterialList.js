@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
+    ScrollView,
+    SafeAreaView,
+    StatusBar ,
     Text,
     View,
     Image,
@@ -11,47 +14,76 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default VideoItem = () => {
 
+    const [product, setProduct] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState('');
+    const [filterData, setFilterData] = useState([]);
+
+
+    const fetchProduct = async () => {
+        try {
+            const response = await fetch(
+                'https://3810-45-201-199-61.ap.ngrok.io/api/materials'
+            );
+
+            const getProduct = await response.json();
+            setProduct(getProduct.materials);
+            setFilterData(getProduct.materials);
+            setLoading(false);
+
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+        } finally {
+            setLoading(false);
+        }
+        
+    };
+
+    useEffect(() => {
+        fetchProduct();
+    }, []);
+
     return (
-        <View style={styles.container}>
-            <Image source={{ uri: "https://10619-1.s.cdn12.com/static/cuisines/seafood.jpg" }} style={{ height: 200 }} />
-            <View style={styles.descContainer}>
-                <Image source={{ uri: "https://10619-1.s.cdn12.com/static/cuisines/seafood.jpg"}} style={{ width: 50, height: 50, borderRadius: 25 }} />
-                <View style={styles.videoDetails}>
-                    <Text numberOfLines={2} style={styles.videoTitle}>Title</Text>
-                    <Text style={styles.videoStats}>Description</Text>
-                </View>
-                <TouchableOpacity>
-                    <Icon name="more-vert" size={20} color="#999999" />
-                </TouchableOpacity>
-            </View>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scrollView}>
+            {
+                product.map((value,index) =>(
+                  
+                    <View style={styles.card} key={index}>
+                        <Image source={{ uri: value.image }} style={{ height: 200 }} />
+                        <View style={styles.descContainer}>
+                            <Image source={{ uri: value.image}} style={{ width: 50, height: 50, borderRadius: 25 }} />
+                            <View style={styles.videoDetails}>
+                                <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
+                                <Text style={styles.videoStats}>{value.description}</Text>
+                            </View>
+                            <TouchableOpacity>
+                                <Icon name="more-vert" size={20} color="#999999" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                ))
+            }
+            </ScrollView>
+        </SafeAreaView>
     );
 
 }
 
-function nFormatter(num, digits) {
-    var si = [
-        { value: 1, symbol: "" },
-        { value: 1E3, symbol: "k" },
-        { value: 1E6, symbol: "M" },
-        { value: 1E9, symbol: "G" },
-        { value: 1E12, symbol: "T" },
-        { value: 1E15, symbol: "P" },
-        { value: 1E18, symbol: "E" }
-    ];
-    var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    var i;
-    for (i = si.length - 1; i > 0; i--) {
-        if (num >= si[i].value) {
-            break;
-        }
-    }
-    return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol + ' views';
-}
 
 const styles = StyleSheet.create({
     container: {
-        padding: 15
+        flex: 1,
+        paddingTop: StatusBar.currentHeight,
+      },
+      scrollView: {
+        backgroundColor: 'pink',
+        marginHorizontal: 20,
+      },
+    card:{
+        backgroundColor:'#ccc'
     },
     descContainer: {
         flexDirection: 'row',
