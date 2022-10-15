@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const VideoItem = () => {
 
-    const [product, setProduct] = useState([]);
+    const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
     const [filterData, setFilterData] = useState([]);
@@ -29,7 +29,7 @@ const VideoItem = () => {
             );
 
             const getProduct = await response.json();
-            setProduct(getProduct.materials);
+            setMaterail(getProduct.materials);
             setFilterData(getProduct.materials);
             setLoading(false);
 
@@ -51,10 +51,10 @@ const VideoItem = () => {
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             });
-            setProduct(newData);
+            setMaterail(newData);
             setSearch(text);
         } else {
-            setProduct(filterData);
+            setMaterail(filterData);
             setSearch(text);
         }
     };
@@ -82,7 +82,7 @@ const VideoItem = () => {
                             <Image source={{ uri: value.image}} style={{ width: 50, height: 50, borderRadius: 25 }} />
                             <View style={styles.videoDetails}>
                                 <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
-                                <Text style={styles.videoStats}>{value.description}</Text>
+                                <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
                             </View>
                             <TouchableOpacity>
                                 <Icon name="more-vert" size={20} color="#999999" />
@@ -98,13 +98,11 @@ const VideoItem = () => {
 
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
       },
       scrollView: {
-        backgroundColor: 'pink',
         marginHorizontal: 20,
       },
     card:{
@@ -112,7 +110,8 @@ const styles = StyleSheet.create({
     },
     descContainer: {
         flexDirection: 'row',
-        paddingTop: 15
+        paddingTop: 15,
+        paddingBottom: 15,
     },
     videoTitle: {
         fontSize: 16,
