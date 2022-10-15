@@ -6,13 +6,15 @@ import {
     StatusBar ,
     Text,
     View,
+    TextInput,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    SearchBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
-export default VideoItem = () => {
+const VideoItem = () => {
 
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -40,12 +42,36 @@ export default VideoItem = () => {
         
     };
 
+    const searchFilterFunction = (text) => {
+        if (text) {
+            const newData = filterData.filter(function (item) {
+                const itemData = item.name
+                    ? item.name.toUpperCase()
+                    : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setProduct(newData);
+            setSearch(text);
+        } else {
+            setProduct(filterData);
+            setSearch(text);
+        }
+    };
     useEffect(() => {
         fetchProduct();
     }, []);
 
     return (
         <SafeAreaView style={styles.container}>
+             <TextInput
+                style={styles.textInputStyle}
+                onChangeText={(text) => searchFilterFunction(text)}
+                value={search}
+                underlineColorAndroid="transparent"
+                placeholder="Search Here"
+            />
+            
             <ScrollView style={styles.scrollView}>
             {
                 product.map((value,index) =>(
@@ -76,7 +102,6 @@ export default VideoItem = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: StatusBar.currentHeight,
       },
       scrollView: {
         backgroundColor: 'pink',
@@ -100,6 +125,17 @@ const styles = StyleSheet.create({
     videoStats: {
         fontSize: 15,
         paddingTop: 3
+    },
+    textInputStyle:{
+        backgroundColor: "#E8E4E4",
+        padding: 10,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        borderColor:'#000',
+        borderRadius:10,
+        marginLeft:20,
+        width:'90%'
     }
 
 });
+export default VideoItem;
