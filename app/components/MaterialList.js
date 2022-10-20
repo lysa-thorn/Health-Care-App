@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import url from '../url.json';
 import {
     StyleSheet,
     ScrollView,
@@ -25,7 +26,7 @@ const VideoItem = () => {
     const fetchProduct = async () => {
         try {
             const response = await fetch(
-                'https://3810-45-201-199-61.ap.ngrok.io/api/materials'
+                url.base_url + '/api/materials'
             );
 
             const getProduct = await response.json();
