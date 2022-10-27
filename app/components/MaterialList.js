@@ -23,9 +23,9 @@ export default VideoItem = () => {
     const fetchProduct = async () => {
         try {
             const response = await fetch(
-                'https://3810-45-201-199-61.ap.ngrok.io/api/materials'
+                'https://e802-117-20-113-103.ap.ngrok.io/api/materials'
             );
-
+            
             const getProduct = await response.json();
             setProduct(getProduct.materials);
             setFilterData(getProduct.materials);
