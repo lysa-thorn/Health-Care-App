@@ -4,17 +4,18 @@ import {
     StyleSheet,
     ScrollView,
     SafeAreaView,
+    RefreshControl,
     StatusBar,
     Text,
     View,
     TextInput,
     Image,
+    Button,
     TouchableOpacity,
     SearchBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MenuProvider } from 'react-native-popup-menu';
-
 import {
     Menu,
     MenuOptions,
@@ -55,23 +56,23 @@ const VideoItem = () => {
     };
 
     const deleteMaterial = (id) => {
-        fetch(`https://2739-203-144-93-156.ap.ngrok.io/api/materials/${id}`, {
-          method: "DELETE"
+        fetch(`${url.base_url}/api/materials/${id}`, {
+            method: "DELETE"
         })
-        .then(res => {
-          console.log(res.status);
-          console.log(res.headers);
-          return res.json();
-        })
-        .then(
-          (result) => {
-            console.log(result);
-          },
-          (error) => {
-            console.log(error);
-          }
-        )
-      };
+            .then(res => {
+                console.log(res.status);
+                console.log(res.headers);
+                return res.json();
+            })
+            .then(
+                (result) => {
+                    console.log(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+    };
 
     const searchFilterFunction = (text) => {
         if (text) {
@@ -115,25 +116,15 @@ const VideoItem = () => {
                                     <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
                                     <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
                                 </View>
-                                <TouchableOpacity>
-                                    <MenuProvider>
-                                        <Menu >
-                                            <MenuTrigger style={styles.menuButton}>
-                                                <Icon name="more-vert" size={20} color="#999999" />
-                                            </MenuTrigger>
-                                            <MenuOptions>
-                                                <MenuOption onSelect={() => alert(`Are you sure want to delete this material?`)} >
-                                                    <Text  onPress={(deleteMaterial(value.id))} >Delete</Text>
-                                                </MenuOption>
-                                                <MenuOption  >
-                                                    <Text>Edit</Text>
-                                                   
-                                                </MenuOption>
-                                            </MenuOptions>
-                                        </Menu>
-                                    </MenuProvider>
+                                <View style={styles.rightNav}>
+                                    <TouchableOpacity>
+                                        <Icon name="edit" size={30} color="#0000FF" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
+                                        <Icon name="delete" size={30} color="#FF0000" />
+                                    </TouchableOpacity>
+                                </View>
 
-                                </TouchableOpacity>
                             </View>
                         </View>
 
@@ -148,6 +139,9 @@ const VideoItem = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    rightNav: {
+        flexDirection: 'row'
     },
     scrollView: {
         marginHorizontal: 20,
