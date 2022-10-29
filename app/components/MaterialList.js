@@ -4,16 +4,28 @@ import {
     StyleSheet,
     ScrollView,
     SafeAreaView,
-    StatusBar ,
+    RefreshControl,
+    StatusBar,
     Text,
     View,
     TextInput,
     Image,
+    Button,
     TouchableOpacity,
     SearchBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { MenuProvider } from 'react-native-popup-menu';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditMaterail from './EditMaterail';
+const Stack = createNativeStackNavigator();
 
 const VideoItem = () => {
 
@@ -40,7 +52,26 @@ const VideoItem = () => {
         } finally {
             setLoading(false);
         }
-        
+
+    };
+
+    const deleteMaterial = (id) => {
+        fetch(`${url.base_url}/api/materials/${id}`, {
+            method: "DELETE"
+        })
+            .then(res => {
+                console.log(res.status);
+                console.log(res.headers);
+                return res.json();
+            })
+            .then(
+                (result) => {
+                    console.log(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
     };
 
     const searchFilterFunction = (text) => {
@@ -65,34 +96,40 @@ const VideoItem = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-             <TextInput
+            <TextInput
                 style={styles.textInputStyle}
                 onChangeText={(text) => searchFilterFunction(text)}
                 value={search}
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
             />
-            
-            <ScrollView style={styles.scrollView}>
-            {
-                product.map((value,index) =>(
-                  
-                    <View style={styles.card} key={index}>
-                        <Image source={{ uri: value.image }} style={{ height: 200 }} />
-                        <View style={styles.descContainer}>
-                            <Image source={{ uri: value.image}} style={{ width: 50, height: 50, borderRadius: 25 }} />
-                            <View style={styles.videoDetails}>
-                                <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
-                                <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Icon name="more-vert" size={20} color="#999999" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
 
-                ))
-            }
+            <ScrollView style={styles.scrollView}>
+                {
+                    product.map((value, index) => (
+
+                        <View style={styles.card} key={index}>
+                            <Image source={{ uri: value.image }} style={{ height: 200 }} />
+                            <View style={styles.descContainer}>
+                                <Image source={{ uri: value.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
+                                <View style={styles.videoDetails}>
+                                    <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
+                                    <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
+                                </View>
+                                <View style={styles.rightNav}>
+                                    <TouchableOpacity>
+                                        <Icon name="edit" size={30} color="#0000FF" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
+                                        <Icon name="delete" size={30} color="#FF0000" />
+                                    </TouchableOpacity>
+                                </View>
+
+                            </View>
+                        </View>
+
+                    ))
+                }
             </ScrollView>
         </SafeAreaView>
     );
@@ -102,12 +139,15 @@ const VideoItem = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-      },
-      scrollView: {
+    },
+    rightNav: {
+        flexDirection: 'row'
+    },
+    scrollView: {
         marginHorizontal: 20,
-      },
-    card:{
-        backgroundColor:'#ccc'
+    },
+    card: {
+        backgroundColor: '#ccc'
     },
     descContainer: {
         flexDirection: 'row',
@@ -126,16 +166,23 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingTop: 3
     },
-    textInputStyle:{
+    textInputStyle: {
         backgroundColor: "#E8E4E4",
         padding: 10,
         marginVertical: 8,
         marginHorizontal: 16,
-        borderColor:'#000',
-        borderRadius:10,
-        marginLeft:20,
-        width:'90%'
-    }
+        borderColor: '#000',
+        borderRadius: 10,
+        marginLeft: 20,
+        width: '90%'
+    },
+
+    menuButton: {
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+        borderRadius: 10,
+    },
+
 
 });
 export default VideoItem;
