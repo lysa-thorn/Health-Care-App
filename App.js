@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
+import MaterialDetail from './app/components/MaterialDetail';
+import MaterialList from './app/components/MaterialList';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -13,6 +15,9 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
+
+const Stack = createNativeStackNavigator();
+
 export default function App()  {
   return (
     <NavigationContainer>
@@ -27,7 +32,16 @@ export default function App()  {
           </TouchableOpacity>
         </View>
       </View>
-      <HomeScreen />
+      <Stack.Navigator initialRouteName="MaterialList">
+        <Stack.Screen name="MaterialList" 
+          component={MaterialList} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="MaterialDetail" 
+          options={{ headerShown: false }}
+          component={MaterialDetail} />
+      </Stack.Navigator>
     </NavigationContainer>
 
   );

@@ -27,7 +27,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EditMaterail from './EditMaterail';
 const Stack = createNativeStackNavigator();
 
-const VideoItem = () => {
+const MaterialList = ({ navigation }) => {
 
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -66,6 +66,7 @@ const VideoItem = () => {
             })
             .then(
                 (result) => {
+                    
                     console.log(result);
                 },
                 (error) => {
@@ -123,6 +124,9 @@ const VideoItem = () => {
                                     <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
                                         <Icon name="delete" size={30} color="#FF0000" />
                                     </TouchableOpacity>
+                                    <TouchableOpacity onPress={()=>navigation.navigate('MaterialDetail', {item:value})}>
+                                        <Icon name="visibility" size={30} color="#050505" />
+                                    </TouchableOpacity>
                                 </View>
 
                             </View>
@@ -147,7 +151,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     card: {
-        backgroundColor: '#ccc'
+        backgroundColor: '#ccc',
+        marginBottom:10
     },
     descContainer: {
         flexDirection: 'row',
@@ -185,4 +190,4 @@ const styles = StyleSheet.create({
 
 
 });
-export default VideoItem;
+export default MaterialList;
