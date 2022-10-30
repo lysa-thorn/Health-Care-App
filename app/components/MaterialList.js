@@ -10,10 +10,14 @@ import {
     TextInput,
     Image,
     TouchableOpacity,
-    SearchBar
+    SearchBar,
+    Alert,
+    Modal,
+    Pressable,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon, { Button } from 'react-native-vector-icons/MaterialIcons';
 import { MenuProvider } from 'react-native-popup-menu';
+
 
 import {
     Menu,
@@ -21,12 +25,14 @@ import {
     MenuOption,
     MenuTrigger,
 } from 'react-native-popup-menu';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import EditMaterail from './EditMaterail';
-const Stack = createNativeStackNavigator();
+
+
+
+
 
 const VideoItem = () => {
+
+
 
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -74,6 +80,12 @@ const VideoItem = () => {
         fetchProduct();
     }, []);
 
+
+    //////////
+    // edit materail alert
+    const [modalVisible, setModalVisible] = useState(false);
+
+
     return (
         <SafeAreaView style={styles.container}>
             <TextInput
@@ -83,7 +95,6 @@ const VideoItem = () => {
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
             />
-
             <ScrollView style={styles.scrollView}>
                 {
                     product.map((value, index) => (
@@ -96,6 +107,53 @@ const VideoItem = () => {
                                     <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
                                     <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
                                 </View>
+
+                                {/* Modol to edit materail */}
+                                <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={modalVisible}
+                                    onRequestClose={() => {
+                                        Alert.alert("Modal has been closed.");
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <View style={styles.centeredView}>
+                                        <View style={styles.modalView}>
+                                            <Text style={styles.modalText}>Edit Materail Form </Text>
+                                            <View>
+                                                <TextInput
+                                                    style={styles.editInput}
+                                                    underlineColorAndroid="transparent"
+                                                    placeholder="Materail Name"
+
+                                                />
+                                                <TextInput
+                                                    style={styles.editInput}
+                                                    underlineColorAndroid="transparent"
+                                                    placeholder="Materail Image"
+
+                                                />
+                                                <TextInput
+                                                    style={styles.editInput}
+                                                    underlineColorAndroid="transparent"
+                                                    placeholder="Materail Desciption"
+
+                                                />
+                                            </View>
+                                            <Text style={[styles.btn, styles.textStyle]}>Update</Text>
+                                            <Pressable
+                                                style={[styles.button, styles.buttonClose]}
+                                                onPress={() => setModalVisible(!modalVisible)}
+                                            >
+                                                <Text style={styles.textStyle}>Hide Modal</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </Modal>
+                                {/* end modol edit materail */}
+
+
                                 <TouchableOpacity>
                                     <MenuProvider>
                                         <Menu >
@@ -107,8 +165,7 @@ const VideoItem = () => {
                                                     <Text>Delete</Text>
                                                 </MenuOption>
                                                 <MenuOption  >
-                                                    <Text>Edit</Text>
-                                                   
+                                                    <Text onPress={() => setModalVisible(true)}>Edit</Text>
                                                 </MenuOption>
                                             </MenuOptions>
                                         </Menu>
@@ -163,12 +220,71 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         width: '90%'
     },
+    editInput: {
+        backgroundColor: "#E8E4E4",
+        padding: 10,
+        marginVertical: 8,
+        
+        borderColor: '#000',
+        borderRadius: 10,
+      
+    },
 
     menuButton: {
         paddingVertical: 20,
         paddingHorizontal: 30,
         borderRadius: 10,
     },
+
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+        marginVertical: 8,
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontWeight: 'bold',
+        fontSize: 25
+    },
+    btn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 23,
+        borderRadius: 20,
+        elevation: 3,
+        backgroundColor: 'black',
+    }
+
+
 
 
 });
