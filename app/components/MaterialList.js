@@ -18,22 +18,10 @@ import {
     Pressable,
 } from 'react-native';
 import Icon, { Button } from 'react-native-vector-icons/MaterialIcons';
-import { MenuProvider } from 'react-native-popup-menu';
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
-
-
 
 
 
 const VideoItem = () => {
-
-
-
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
@@ -103,6 +91,15 @@ const VideoItem = () => {
     //////////
     // edit materail alert
     const [modalVisible, setModalVisible] = useState(false);
+    const getMaterail = async () => {
+        try {
+          let response = await fetch('https://gorest.co.in/public-api/users');
+          let json = await response.json();
+          setUser(json.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
 
     return (
