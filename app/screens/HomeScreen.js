@@ -10,12 +10,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialList from '../components/MaterialList';
-import data from '../data.json';
 export default class HomeStackScreen extends Component {
   render(){
     return (
       <View style={styles.container}>
-        <MaterialList />
+        <CreateMaterialScreen />
       {/* <View style={styles.body}>
         <FlatList
         data={data.items}
