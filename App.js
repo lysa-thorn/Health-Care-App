@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
+import ListMaterial from './app/components/MaterialList';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -13,10 +14,15 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
+import EditMaterial from './app/components/EditMaterail';
+
+const Stack = createNativeStackNavigator();
+
+
 export default function App()  {
   return (
     <NavigationContainer>
-      <View style={styles.navBar}>
+      {/* <View style={styles.navBar}>
         <Image source={require('./app/images/main_logo.png')} style={{ width: 98, height: 22 }} />
         <View style={styles.rightNav}>
           <TouchableOpacity>
@@ -26,8 +32,13 @@ export default function App()  {
           <Icon style={styles.navItem} name="account-circle" size={25} />
           </TouchableOpacity>
         </View>
-      </View>
-      <HomeScreen />
+      </View> */}
+      {/* <HomeScreen /> */}
+      <Stack.Navigator initialRouteName="ListMaterial">
+        <Stack.Screen name="ListMaterial" component={ListMaterial}></Stack.Screen>
+        <Stack.Screen name="EditMaterial" component={EditMaterial}></Stack.Screen>
+      </Stack.Navigator>
+
     </NavigationContainer>
 
   );

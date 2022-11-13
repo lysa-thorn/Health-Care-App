@@ -20,8 +20,7 @@ import {
 import Icon, { Button } from 'react-native-vector-icons/MaterialIcons';
 
 
-
-const VideoItem = () => {
+const VideoItem = ({navigation}) => {
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
@@ -88,19 +87,6 @@ const VideoItem = () => {
     }, []);
 
 
-    //////////
-    // edit materail alert
-    const [modalVisible, setModalVisible] = useState(false);
-    const getMaterail = async () => {
-        try {
-          let response = await fetch('https://gorest.co.in/public-api/users');
-          let json = await response.json();
-          setUser(json.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -111,50 +97,7 @@ const VideoItem = () => {
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
             />
-            {/* Modol to edit materail */}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Edit Materail Form </Text>
-                        <View>
-                            <TextInput
-                                style={styles.editInput}
-                                underlineColorAndroid="transparent"
-                                placeholder="Materail Name"
-
-                            />
-                            <TextInput
-                                style={styles.editInput}
-                                underlineColorAndroid="transparent"
-                                placeholder="Materail Image"
-
-                            />
-                            <TextInput
-                                style={styles.editInput}
-                                underlineColorAndroid="transparent"
-                                placeholder="Materail Desciption"
-
-                            />
-                        </View>
-                        <Text style={[styles.btn, styles.textStyle]}>Update</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}
-                        >
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
-            {/* end modol edit materail */}
+           
             <ScrollView style={styles.scrollView}>
                 {
                     product.map((value, index) => (
@@ -169,7 +112,7 @@ const VideoItem = () => {
                                 </View>
                                 <View style={styles.rightNav}>
                                     <TouchableOpacity>
-                                        <Icon name="edit" onPress={() => setModalVisible(true)} size={30} color="#0000FF" />
+                                        <Icon name="edit" onPress={()=>navigation.navigate('EditMaterial', {item:value})} size={30} color="#0000FF" />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
                                         <Icon name="delete" size={30} color="#FF0000" />
