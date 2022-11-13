@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
 import MaterialDetail from './app/components/MaterialDetail';
 import MaterialList from './app/components/MaterialList';
+import ListMaterial from './app/components/MaterialList';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -16,12 +17,15 @@ import {
   FlatList
 } from 'react-native';
 
+import EditMaterial from './app/components/EditMaterail';
+
 const Stack = createNativeStackNavigator();
+
 
 export default function App()  {
   return (
     <NavigationContainer>
-      <View style={styles.navBar}>
+      {/* <View style={styles.navBar}>
         <Image source={require('./app/images/main_logo.png')} style={{ width: 98, height: 22 }} />
         <View style={styles.rightNav}>
           <TouchableOpacity>
@@ -42,6 +46,13 @@ export default function App()  {
           options={{ headerShown: false }}
           component={MaterialDetail} />
       </Stack.Navigator>
+      </View> */}
+      {/* <HomeScreen /> */}
+      <Stack.Navigator initialRouteName="ListMaterial">
+        <Stack.Screen name="ListMaterial" component={ListMaterial}></Stack.Screen>
+        <Stack.Screen name="EditMaterial" component={EditMaterial}></Stack.Screen>
+      </Stack.Navigator>
+
     </NavigationContainer>
 
   );
