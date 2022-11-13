@@ -56,12 +56,13 @@ const VideoItem = () => {
     };
 
     const deleteMaterial = (id) => {
+        setMaterail(product.filter(value => value.id !== id));
         fetch(`${url.base_url}/api/materials/${id}`, {
             method: "DELETE"
         })
             .then(res => {
-                console.log(res.status);
-                console.log(res.headers);
+                // console.log(res.status);
+                // console.log(res.headers);
                 return res.json();
             })
             .then(
