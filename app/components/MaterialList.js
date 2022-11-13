@@ -27,7 +27,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EditMaterail from './EditMaterail';
 const Stack = createNativeStackNavigator();
 
-const MaterialList = ({ navigation }) => {
+const VideoItem = () => {
 
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -67,7 +67,6 @@ const MaterialList = ({ navigation }) => {
             })
             .then(
                 (result) => {
-                    
                     console.log(result);
                 },
                 (error) => {
@@ -111,11 +110,9 @@ const MaterialList = ({ navigation }) => {
                     product.map((value, index) => (
 
                         <View style={styles.card} key={index}>
-                            <TouchableOpacity onPress={()=>navigation.navigate('MaterialDetail', {item:value})}>
-                                <Image source={{ uri: value.image }} style={{ height: 200 }} />
-                            </TouchableOpacity>
+                            <Image source={{ uri: value.image }} style={{ height: 200 }} />
                             <View style={styles.descContainer}>
-                                <Image source={{ uri: value.user.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
+                                <Image source={{ uri: value.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                                 <View style={styles.videoDetails}>
                                     <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
                                     <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
@@ -126,7 +123,7 @@ const MaterialList = ({ navigation }) => {
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
                                         <Icon name="delete" size={30} color="#FF0000" />
-                                    </TouchableOpacity>                                    
+                                    </TouchableOpacity>
                                 </View>
 
                             </View>
@@ -151,8 +148,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     card: {
-        backgroundColor: '#ccc',
-        marginBottom:10,
+        backgroundColor: '#ccc'
     },
     descContainer: {
         flexDirection: 'row',
@@ -190,4 +186,4 @@ const styles = StyleSheet.create({
 
 
 });
-export default MaterialList;
+export default VideoItem;

@@ -72,6 +72,7 @@ const MaterialDetail = ({ route, navigation }) => {
   };
   
   const deleteComment = (id) => {
+    setComment(comment.filter(value => value.id !== id));
     fetch(`${url.base_url}/api/comments/${id}`, {
       method: "DELETE",
       headers: {
