@@ -112,7 +112,7 @@ const MaterialList = ({ navigation }) => {
                         <View style={styles.card} key={index}>
                             <Image source={{ uri: value.image }} style={{ height: 200 }} />
                             <View style={styles.descContainer}>
-                                <Image source={{ uri: value.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
+                                <Image source={{ uri: value.user.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                                 <View style={styles.videoDetails}>
                                     <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
                                     <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
