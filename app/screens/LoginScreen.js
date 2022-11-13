@@ -5,6 +5,7 @@ import { Alert, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput,
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
+import Loader from "../components/Loader";
 import COLORS from "../const/colors";
 
 const LoginScreen = ({ navigation }) => {
@@ -50,17 +51,22 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const onSubmit = async () => {
+    console.log('this is submit')
     setLoading(true);
     setTimeout(async () => {
+      console.log('this is timeout')
       setLoading(false);
-        const res = await fetch('http://localhost:8080/api/login', {
+      const res = await fetch('http://127.0.0.1:8080/api/login', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ "phone": inputs.phone, "password": inputs.password })
       });
+      // console.log('this is res', res);
+      // const resData = await res.json();
+      // console.log('this is', resData);
      
       if (res) {
         const resData = await res.json();
@@ -77,7 +83,8 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{backgroundColor: COLORS.lightGreen, flex: 1}}> 
+    <SafeAreaView style={{ backgroundColor: COLORS.lightGreen, flex: 1 }}> 
+      {/* <Loader visible={loading} /> */}
       <ScrollView
         contentContainerStyle={{
           paddingTop: 50,
@@ -94,6 +101,7 @@ const LoginScreen = ({ navigation }) => {
           <CustomInput
             iconName="phone"
             label="Phone Number"
+            placeholder="Enter your phone number"
             onChangeText={(text) => handleChangeInput(text, 'phone')}
             error={error.phone}
             onFous={() => {
@@ -103,6 +111,7 @@ const LoginScreen = ({ navigation }) => {
           <CustomInput
             iconName="lock-outline"
             label="Password"
+            placeholder="Enter your password"
             password
             onChangeText={(text) => handleChangeInput(text, 'password')}
             error={error.password}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
@@ -13,10 +14,16 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
-export default function App()  {
+import LoginScreen from './app/screens/LoginScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  const [initialRouteName, setInitialRouteName] = React.useState('');
   return (
     <NavigationContainer>
-      <View style={styles.navBar}>
+      {/* <View style={styles.navBar}>
         <Image source={require('./app/images/main_logo.png')} style={{ width: 98, height: 22 }} />
         <View style={styles.rightNav}>
           <TouchableOpacity>
@@ -26,13 +33,26 @@ export default function App()  {
           <Icon style={styles.navItem} name="account-circle" size={25} />
           </TouchableOpacity>
         </View>
-      </View>
-      <HomeScreen />
+      </View> */}
+      {/* <NavigationContainer> */}
+         <Stack.Navigator>
+        <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+          />
+        </Stack.Navigator>
+      {/* </NavigationContainer> */}
+       
+      {/* <HomeScreen /> */}
+      {/* <LoginScreen /> */}
     </NavigationContainer>
 
   );
 }
-
  
 const styles = StyleSheet.create({
   container: {
@@ -74,3 +94,5 @@ const styles = StyleSheet.create({
     paddingTop: 4
   }
 })
+
+export default App;

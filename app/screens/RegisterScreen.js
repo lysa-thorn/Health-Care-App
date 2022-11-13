@@ -6,6 +6,7 @@ import COLORS from '../const/colors';
 import CustomInput from '../components/CustomInput';
 import CustomButton from "../components/CustomButton";
 import Loader from "../components/Loader";
+import SelectList from 'react-native-dropdown-select-list'
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -19,6 +20,14 @@ const RegisterScreen = ({ navigation }) => {
 
   const [error, setError] = useState({})
   const [loading, setLoading] = useState(true)
+  const [selected, setSelected] = React.useState("");
+  const data = [
+    { key: '1', value: 'Doctor' },
+    { key: '2', value: 'Student' },
+    { key: '3', value: 'Nurse' },
+    { key: '4', value: 'Programmer'},
+  ];
+  
   const validate = () => {
     let valid = true;
     Keyboard.dismiss();
@@ -45,12 +54,12 @@ const RegisterScreen = ({ navigation }) => {
       valid = false;
     }
 
-    if (!email) {
-      handleError('Please input email', 'email');
-      valid = false;
-    } else if(!email.match(/S\=@\S+\.\S+/)) {
-      handleError('Please input valid email', 'email')
-    } 
+    // if (!email) {
+    //   handleError('Please input email', 'email');
+    //   valid = false;
+    // } else if(!email.match(/S\=@\S+\.\S+/)) {
+    //   handleError('Please input valid email', 'email')
+    // } 
 
     if (valid) {
       onSubmit();
@@ -80,13 +89,19 @@ const RegisterScreen = ({ navigation }) => {
         {/* <Text style={{ color: COLORS.black, fontSize: 40, fontWeight: 'bold' }}>
           Register
         </Text> */}
-        <Text style={{ color: COLORS.black, fontSize: 25, marginVertical: 10 }}>
+        <Text style={{
+          color: COLORS.black,
+          fontSize: 25,
+          marginVertical: 10,
+        }}
+        >
           Enter Your Details to Register
         </Text>
         <View style={{marginVertical: 20}}>
           <CustomInput
             iconName="person-outline"
             label="Full Name"
+            placeholder="Enter your Full Name"
             onChangeText ={(text) => handleChangeInput(text, 'fullname')}
             error={error.fullname}
             onFous={() => {
@@ -97,6 +112,7 @@ const RegisterScreen = ({ navigation }) => {
             keyboardType="numeric"
             iconName="phone"
             label="Phone Numer"
+            placeholder="Enter your Phone Number"
             onChangeText={(text) => handleChangeInput(text, 'phone')}
             error={error.phone}
             onFous={() => {
@@ -104,17 +120,9 @@ const RegisterScreen = ({ navigation }) => {
             }}
           />
           <CustomInput
-            iconName="email"
-            label="Email Address"
-            onChangeText={(text) => handleChangeInput(text, 'email')}
-            error={error.email}
-            onFous={() => {
-              handleError(null, 'email');
-            }}
-          />
-          <CustomInput
             iconName="lock-outline"
             label="Password"
+            placeholder="Enter your Password"
             password
             onChangeText={(text) => handleChangeInput(text, 'password')}
             error={error.password}
@@ -125,7 +133,30 @@ const RegisterScreen = ({ navigation }) => {
           <CustomInput
             iconName="lock-outline"
             label="Confirm Password"
+            placeholder="Enter your Confirm Password"
             password
+          />
+          <Text
+            style={{
+              marginVertical: 5,
+              fontSize: 14,
+              color: COLORS.black
+            }}
+          >Select Role</Text>
+          <SelectList
+            label="Select Role"
+            setSelected={setSelected}
+            data={data}
+            boxStyles={{
+              borderRadius: 5, height: 45, backgroundColor: COLORS.white
+            }}
+            dropdownStyles={{
+              borderRadius: 5,
+              backgroundColor: COLORS.white,
+              marginTop: -2
+            }}
+            search={false}
+            onSelect={() => alert(selected)}
           />
           <CustomButton title="Register" backgroundColor="#13aa52" onPress={validate} />
           <Text
