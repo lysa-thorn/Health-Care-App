@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
+import LoginScreen from './app/screens/LoginScreen';
+import AddMaterial from './app/screens/CreateMaterialScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -27,7 +29,7 @@ export default function App()  {
           </TouchableOpacity>
         </View>
       </View>
-      <HomeScreen />
+      <HomeScreen/>
     </NavigationContainer>
 
   );

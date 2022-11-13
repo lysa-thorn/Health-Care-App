@@ -14,8 +14,8 @@ export default class HomeStackScreen extends Component {
   render(){
     return (
       <View style={styles.container}>
-        <CreateMaterialScreen />
-      {/* <View style={styles.body}>
+        <MaterialList />
+      <View style={styles.body}>
         <FlatList
         data={data.items}
         renderItem={(video)=><MaterialList video={video.item} />}
@@ -23,7 +23,7 @@ export default class HomeStackScreen extends Component {
         ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}
 
          />
-      </View> */}
+      </View>
     </View>
     );
   }
