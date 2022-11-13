@@ -110,7 +110,9 @@ const MaterialList = ({ navigation }) => {
                     product.map((value, index) => (
 
                         <View style={styles.card} key={index}>
-                            <Image source={{ uri: value.image }} style={{ height: 200 }} />
+                            <TouchableOpacity onPress={()=>navigation.navigate('MaterialDetail', {item:value})}>
+                                <Image source={{ uri: value.image }} style={{ height: 200 }} />
+                            </TouchableOpacity>
                             <View style={styles.descContainer}>
                                 <Image source={{ uri: value.user.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                                 <View style={styles.videoDetails}>
@@ -123,10 +125,7 @@ const MaterialList = ({ navigation }) => {
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
                                         <Icon name="delete" size={30} color="#FF0000" />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={()=>navigation.navigate('MaterialDetail', {item:value})}>
-                                        <Icon name="visibility" size={30} color="#050505" />
-                                    </TouchableOpacity>
+                                    </TouchableOpacity>                                    
                                 </View>
 
                             </View>
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: '#ccc',
-        marginBottom:10
+        marginBottom:10,
     },
     descContainer: {
         flexDirection: 'row',

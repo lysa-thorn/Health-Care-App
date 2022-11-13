@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
 import MaterialDetail from './app/components/MaterialDetail';
 import MaterialList from './app/components/MaterialList';
+import CommentEdit from './app/components/CommentEdit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -41,6 +42,10 @@ export default function App()  {
           name="MaterialDetail" 
           options={{ headerShown: false }}
           component={MaterialDetail} />
+        <Stack.Screen 
+          name="CommentEdit" 
+          options={{ headerShown: false }}
+          component={CommentEdit} />
       </Stack.Navigator>
     </NavigationContainer>
 
