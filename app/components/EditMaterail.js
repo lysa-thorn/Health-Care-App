@@ -1,4 +1,3 @@
-
 import React, { Component, useEffect, useState } from "react";
 
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image } from "react-native";
@@ -55,7 +54,7 @@ const EditMaterial = ({ route, navigation }) => {
             .then((response) => {
                 response.text();
                 console.log(response)
-                navigation.push('ListMaterial')
+                navigation.push('MaterialList')
             })
             .then((result) => console.log(result))
             .catch((error) => console.log(error));

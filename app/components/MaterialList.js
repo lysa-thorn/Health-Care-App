@@ -19,8 +19,7 @@ import {
 } from 'react-native';
 import Icon, { Button } from 'react-native-vector-icons/MaterialIcons';
 
-
-const VideoItem = ({navigation}) => {
+const MaterialList = ({ navigation }) => {
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
@@ -58,6 +57,7 @@ const VideoItem = ({navigation}) => {
             })
             .then(
                 (result) => {
+                    
                     console.log(result);
                 },
                 (error) => {
@@ -103,7 +103,9 @@ const VideoItem = ({navigation}) => {
                     product.map((value, index) => (
 
                         <View style={styles.card} key={index}>
-                            <Image source={{ uri: value.image }} style={{ height: 200 }} />
+                            <TouchableOpacity onPress={()=>navigation.navigate('MaterialDetail', {item:value})}>
+                                <Image source={{ uri: value.image }} style={{ height: 200 }} />
+                            </TouchableOpacity>
                             <View style={styles.descContainer}>
                                 <Image source={{ uri: value.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                                 <View style={styles.videoDetails}>
@@ -116,7 +118,7 @@ const VideoItem = ({navigation}) => {
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
                                         <Icon name="delete" size={30} color="#FF0000" />
-                                    </TouchableOpacity>
+                                    </TouchableOpacity>                                    
                                 </View>
 
                             </View>
@@ -141,7 +143,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     card: {
-        backgroundColor: '#ccc'
+        backgroundColor: '#ccc',
+        marginBottom:10,
     },
     descContainer: {
         flexDirection: 'row',
@@ -302,4 +305,4 @@ const styles = StyleSheet.create({
 
 
 });
-export default VideoItem;
+export default MaterialList;

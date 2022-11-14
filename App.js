@@ -3,7 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
-import ListMaterial from './app/components/MaterialList';
+import MaterialDetail from './app/components/MaterialDetail';
+import MaterialList from './app/components/MaterialList';
+import CommentEdit from './app/components/CommentEdit';
+import EditMaterial from './app/components/EditMaterail';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -14,15 +17,13 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
-import EditMaterial from './app/components/EditMaterail';
 
 const Stack = createNativeStackNavigator();
-
 
 export default function App()  {
   return (
     <NavigationContainer>
-      {/* <View style={styles.navBar}>
+      <View style={styles.navBar}>
         <Image source={require('./app/images/main_logo.png')} style={{ width: 98, height: 22 }} />
         <View style={styles.rightNav}>
           <TouchableOpacity>
@@ -32,13 +33,22 @@ export default function App()  {
           <Icon style={styles.navItem} name="account-circle" size={25} />
           </TouchableOpacity>
         </View>
-      </View> */}
-      {/* <HomeScreen /> */}
-      <Stack.Navigator initialRouteName="ListMaterial">
-        <Stack.Screen name="ListMaterial" component={ListMaterial}></Stack.Screen>
-        <Stack.Screen name="EditMaterial" component={EditMaterial}></Stack.Screen>
+      </View>
+      <Stack.Navigator initialRouteName="MaterialList">
+        <Stack.Screen name="MaterialList" 
+          component={MaterialList} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="MaterialDetail" 
+          options={{ headerShown: false }}
+          component={MaterialDetail} />
+        <Stack.Screen 
+          name="CommentEdit" 
+          options={{ headerShown: false }}
+          component={CommentEdit} />
+          <Stack.Screen name="EditMaterial" component={EditMaterial}></Stack.Screen>
       </Stack.Navigator>
-
     </NavigationContainer>
 
   );
