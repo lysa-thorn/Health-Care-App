@@ -4,6 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './app/screens/HomeScreen';
+import MaterialDetail from './app/components/MaterialDetail';
+import MaterialList from './app/components/MaterialList';
+import CommentEdit from './app/components/CommentEdit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -23,7 +26,7 @@ const App = () => {
   const [initialRouteName, setInitialRouteName] = React.useState('');
   return (
     <NavigationContainer>
-      {/* <View style={styles.navBar}>
+      <View style={styles.navBar}>
         <Image source={require('./app/images/main_logo.png')} style={{ width: 98, height: 22 }} />
         <View style={styles.rightNav}>
           <TouchableOpacity>
@@ -33,22 +36,31 @@ const App = () => {
           <Icon style={styles.navItem} name="account-circle" size={25} />
           </TouchableOpacity>
         </View>
-      </View> */}
-      {/* <NavigationContainer> */}
-         <Stack.Navigator>
+      </View>
+      <Stack.Navigator initialRouteName="MaterialList">
+        <Stack.Screen name="MaterialList" 
+          component={MaterialList} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="MaterialDetail" 
+          options={{ headerShown: false }}
+          component={MaterialDetail} />
+        <Stack.Screen 
+          name="CommentEdit" 
+          options={{ headerShown: false }}
+          component={CommentEdit} />
         <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-          />
-        </Stack.Navigator>
-      {/* </NavigationContainer> */}
-       
-      {/* <HomeScreen /> */}
-      {/* <LoginScreen /> */}
+          name="Register"
+          options={{ headerShown: false }}
+          component={RegisterScreen}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
 
   );
