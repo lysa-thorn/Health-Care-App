@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Keyboard, SafeAreaView, ScrollView, Text, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import url from '../const/url.json'
 import CustomButton from "../components/CustomButton";
@@ -65,11 +66,17 @@ const LoginScreen = ({ navigation }) => {
           "password": inputs.password
         })
       });
-     
+
+
       if (res) {
-        const resData = await res.json();
-        if (resData.phone == inputs.phone && inputs.password) {
+
+      let  userData = await res.json();
+        if (userData.phone == inputs.phone && inputs.password) {
           navigation.navigate('MaterialList');
+          AsyncStorage.setItem(
+            'userData',
+            JSON.stringify({...userData, loggedIn: true}),
+          );
         } else {
           Alert.alert('Error:', 'Incorrect phone number or password!');
         }
