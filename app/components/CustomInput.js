@@ -42,7 +42,6 @@ const CustomInput = ({
                         onPress={() => setHidePwd(!hidePwd)}
                         style={{fontSize: 22, color: COLORS.darkblue}}
                         name={hidePwd ? 'visibility' : 'visibility_off'}
-                        // name="visibility"
                     />
                     }
                 </View>

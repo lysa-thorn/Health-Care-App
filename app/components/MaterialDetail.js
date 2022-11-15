@@ -10,7 +10,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import url from '../url.json';
+import url from '../const/url.json';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const MaterialDetail = ({ route, navigation }) => {
@@ -23,7 +23,7 @@ const MaterialDetail = ({ route, navigation }) => {
   const fetchMaterial = async () => {
     try {
       const response = await fetch(
-        url.base_url + '/api/materials/' + item.id
+        url.base_url + '/materials/' + item.id
       );
 
       const getProduct = await response.json();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import url from '../url.json';
+import url from '../const/url.json';
 import {
     StyleSheet,
     ScrollView,
@@ -38,7 +38,7 @@ const MaterialList = ({ navigation }) => {
     const fetchProduct = async () => {
         try {
             const response = await fetch(
-                url.base_url + '/api/materials'
+                url.base_url + '/materials'
             );
 
             const getProduct = await response.json();
@@ -56,7 +56,7 @@ const MaterialList = ({ navigation }) => {
     };
 
     const deleteMaterial = (id) => {
-        fetch(`${url.base_url}/api/materials/${id}`, {
+        fetch(`${url.base_url}/materials/${id}`, {
             method: "DELETE"
         })
             .then(res => {

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Component } from "react";
-import { Button, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Keyboard, SafeAreaView, ScrollView, Text, View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../const/colors';
 import CustomInput from '../components/CustomInput';
 import CustomButton from "../components/CustomButton";
 import Loader from "../components/Loader";
-import SelectList from 'react-native-dropdown-select-list'
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -19,19 +17,12 @@ const RegisterScreen = ({ navigation }) => {
   });
 
   const [error, setError] = useState({})
-  const [loading, setLoading] = useState(true)
-  const [selected, setSelected] = React.useState("");
-  const data = [
-    { key: '1', value: 'Doctor' },
-    { key: '2', value: 'Student' },
-    { key: '3', value: 'Nurse' },
-    { key: '4', value: 'Programmer'},
-  ];
+  const [loading, setLoading] = useState(false)
   
   const validate = () => {
     let valid = true;
     Keyboard.dismiss();
-    const {fullname, phone, email, password, cfPassword} = inputs;
+    const {fullname, phone, password, cfPassword} = inputs;
     if (!fullname) {
        handleError('Please input fullname', 'fullname');
       valid = false;
@@ -45,21 +36,14 @@ const RegisterScreen = ({ navigation }) => {
     if (!password) {
        handleError('Please input password', 'password');
       valid = false;
-    } else if (password.length < 8) {
-       handleError('Password must be more than 8', 'password');
+    } else if (password.length < 5) {
+       handleError('Password must be more than 5', 'password');
     }
 
     if (cfPassword.match(password)) {
        handleError('Please input match password', 'cfPassword');
       valid = false;
     }
-
-    // if (!email) {
-    //   handleError('Please input email', 'email');
-    //   valid = false;
-    // } else if(!email.match(/S\=@\S+\.\S+/)) {
-    //   handleError('Please input valid email', 'email')
-    // } 
 
     if (valid) {
       onSubmit();
@@ -75,20 +59,44 @@ const RegisterScreen = ({ navigation }) => {
     setError((prevState) => ({ ...prevState, [input]: errorMessage }));
   }
 
-  const onSubmit = () => {}
+  const onSubmit = () => {
+    setLoading(true);
+    setTimeout(async () => {
+      setLoading(false);
+      const res = await fetch(
+       url.base_url + '/register', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "fullname": inputs.fullname,
+          "phone": inputs.phone,
+          "password": inputs.password
+        })
+      });
+     
+      if (res) {
+        const resData = await res.json();
+        if (resData) {
+          navigation.navigate('Login');
+        } else {
+          Alert.alert('Error:', 'You input invalid information. Please try again!');
+        }
+      }
+    }, 3000)
+  }
 
   return (
     <SafeAreaView style={{ backgroundColor: COLORS.lightGreen, flex: 1 }}> 
-      {/* <Loader visible={loading} /> */}
+      <Loader visible={loading} />
       <ScrollView
         contentContainerStyle={{
           paddingTop: 50,
           paddingHorizontal: 20
         }}
       >
-        {/* <Text style={{ color: COLORS.black, fontSize: 40, fontWeight: 'bold' }}>
-          Register
-        </Text> */}
         <Text style={{
           color: COLORS.black,
           fontSize: 25,
@@ -135,28 +143,6 @@ const RegisterScreen = ({ navigation }) => {
             label="Confirm Password"
             placeholder="Enter your Confirm Password"
             password
-          />
-          <Text
-            style={{
-              marginVertical: 5,
-              fontSize: 14,
-              color: COLORS.black
-            }}
-          >Select Role</Text>
-          <SelectList
-            label="Select Role"
-            setSelected={setSelected}
-            data={data}
-            boxStyles={{
-              borderRadius: 5, height: 45, backgroundColor: COLORS.white
-            }}
-            dropdownStyles={{
-              borderRadius: 5,
-              backgroundColor: COLORS.white,
-              marginTop: -2
-            }}
-            search={false}
-            onSelect={() => alert(selected)}
           />
           <CustomButton title="Register" backgroundColor="#13aa52" onPress={validate} />
           <Text

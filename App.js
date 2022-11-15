@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './app/screens/HomeScreen';
 import MaterialDetail from './app/components/MaterialDetail';
 import MaterialList from './app/components/MaterialList';
 import CommentEdit from './app/components/CommentEdit';
@@ -37,7 +35,17 @@ const App = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <Stack.Navigator initialRouteName="MaterialList">
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          options={{ headerShown: false }}
+          component={RegisterScreen}
+        />
         <Stack.Screen name="MaterialList" 
           component={MaterialList} 
           options={{ headerShown: false }}
@@ -50,16 +58,8 @@ const App = () => {
           name="CommentEdit" 
           options={{ headerShown: false }}
           component={CommentEdit} />
-        <Stack.Screen
-          name="Register"
-          options={{ headerShown: false }}
-          component={RegisterScreen}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
+        
+       
       </Stack.Navigator>
     </NavigationContainer>
 
