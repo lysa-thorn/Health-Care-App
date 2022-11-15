@@ -2,7 +2,6 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './app/screens/HomeScreen';
 import MaterialDetail from './app/components/MaterialDetail';
 import MaterialList from './app/components/MaterialList';
 import CommentEdit from './app/components/CommentEdit';
@@ -16,10 +15,13 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
+import LoginScreen from './app/screens/LoginScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function App()  {
+const App = () => {
+  const [initialRouteName, setInitialRouteName] = React.useState('');
   return (
     <NavigationContainer>
       <View style={styles.navBar}>
@@ -33,7 +35,17 @@ export default function App()  {
           </TouchableOpacity>
         </View>
       </View>
-      <Stack.Navigator initialRouteName="MaterialList">
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          options={{ headerShown: false }}
+          component={RegisterScreen}
+        />
         <Stack.Screen name="MaterialList" 
           component={MaterialList} 
           options={{ headerShown: false }}
@@ -46,12 +58,13 @@ export default function App()  {
           name="CommentEdit" 
           options={{ headerShown: false }}
           component={CommentEdit} />
+        
+       
       </Stack.Navigator>
     </NavigationContainer>
 
   );
 }
-
  
 const styles = StyleSheet.create({
   container: {
@@ -93,3 +106,5 @@ const styles = StyleSheet.create({
     paddingTop: 4
   }
 })
+
+export default App;

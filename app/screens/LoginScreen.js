@@ -1,10 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { Component } from "react";
 import { Alert, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import url from '../const/url.json'
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
+import Loader from "../components/Loader";
 import COLORS from "../const/colors";
 
 const LoginScreen = ({ navigation }) => {
@@ -15,7 +15,7 @@ const LoginScreen = ({ navigation }) => {
   });
 
   const [error, setError] = useState({})
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const validate = () => {
     let valid = true;
@@ -26,9 +26,9 @@ const LoginScreen = ({ navigation }) => {
        handleError('Please input password', 'password');
       valid = false;
     }
-    // else if (password.length < 8) {
-    //    handleError('Password must be more than 8', 'password');
-    // }
+    else if (password.length < 5) {
+       handleError('Password must be more than 5', 'password');
+    }
 
     if (!phone) {
       handleError('Please input phone', 'phone');
@@ -36,7 +36,7 @@ const LoginScreen = ({ navigation }) => {
     } 
 
     if (valid) {
-      onSubmit().catch(console.log);
+      onSubmit();
     }
     
   };
@@ -53,40 +53,40 @@ const LoginScreen = ({ navigation }) => {
     setLoading(true);
     setTimeout(async () => {
       setLoading(false);
-        const res = await fetch('http://localhost:8080/api/login', {
+      const res = await fetch(
+       url.base_url + '/login', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "phone": inputs.phone, "password": inputs.password })
+        body: JSON.stringify({
+          "phone": inputs.phone,
+          "password": inputs.password
+        })
       });
      
       if (res) {
         const resData = await res.json();
         if (resData.phone == inputs.phone && inputs.password) {
-          navigation.navigate('HomeScreen');
+          navigation.navigate('MaterialList');
         } else {
           Alert.alert('Error:', 'Incorrect phone number or password!');
         }
-      } else {
-        Alert.alert('Error:', 'User does not exist');
       }
-    })
+    }, 3000)
     
   }
 
   return (
-    <SafeAreaView style={{backgroundColor: COLORS.lightGreen, flex: 1}}> 
+    <SafeAreaView style={{ backgroundColor: COLORS.lightGreen, flex: 1 }}> 
+      <Loader visible={loading} />
       <ScrollView
         contentContainerStyle={{
           paddingTop: 50,
           paddingHorizontal: 20
         }}
       >
-        {/* <Text style={{ color: COLORS.black, fontSize: 40, fontWeight: 'bold' }}>
-          Register
-        </Text> */}
         <Text style={{ color: COLORS.black, fontSize: 25, marginVertical: 10 }}>
           Enter Your Details to Login
         </Text>
@@ -94,6 +94,7 @@ const LoginScreen = ({ navigation }) => {
           <CustomInput
             iconName="phone"
             label="Phone Number"
+            placeholder="Enter your phone number"
             onChangeText={(text) => handleChangeInput(text, 'phone')}
             error={error.phone}
             onFous={() => {
@@ -103,6 +104,7 @@ const LoginScreen = ({ navigation }) => {
           <CustomInput
             iconName="lock-outline"
             label="Password"
+            placeholder="Enter your password"
             password
             onChangeText={(text) => handleChangeInput(text, 'password')}
             error={error.password}
@@ -110,7 +112,7 @@ const LoginScreen = ({ navigation }) => {
               handleError(null, 'password');
             }}
           />
-          <CustomButton title="Login" backgroundColor="#13aa52" onPress={validate} />
+          <CustomButton title="Login" backgroundColor={COLORS.green} onPress={validate} />
           <Text
             onPress={() => navigation.navigate('Register')}
               style={{
