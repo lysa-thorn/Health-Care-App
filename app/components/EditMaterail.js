@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image, Button } from "react-native";
-
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -61,7 +59,8 @@ const EditMaterial = ({ route, navigation }) => {
         fetch("http://127.0.0.1:3000/api/update-material/" + item.id, requestOptions)
             .then((response) => {
                 response.text();
-                navigation.push('MaterialList')
+                navigation.push('MaterialList');
+                console.log(response);
             })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
