@@ -64,6 +64,9 @@ const MaterialList = ({ navigation }) => {
                     console.log(error);
                 }
             )
+            .then(() => {
+                navigation.push('MaterialList')
+            })
     };
 
     const searchFilterFunction = (text) => {

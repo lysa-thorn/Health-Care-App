@@ -47,7 +47,11 @@ export default function App()  {
           name="CommentEdit" 
           options={{ headerShown: false }}
           component={CommentEdit} />
-          <Stack.Screen name="EditMaterial" component={EditMaterial}></Stack.Screen>
+          <Stack.Screen 
+          name="EditMaterial" 
+          options={{ headerShown: false }}
+          component={EditMaterial}/>
+         
       </Stack.Navigator>
     </NavigationContainer>
 
