@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, 
+import {
+    View,
     Text,
     TextInput,
     StyleSheet,
@@ -9,23 +9,56 @@ import {
 } from 'react-native';
 const CommentEdit = ({ route, navigation }) => {
     const { item } = route.params;
-    console.log(item);
-    return(
+    const [input, setInput] = useState({});
+    useEffect(() => {
+        setInput({
+            comment: item.comment,
+        });
+    }, [])
+
+    const onChangeComment = (value) => {
+        setInput({ ...input, comment: value });
+    };
+
+
+///////////////////////////
+// Update comment
+const updateComment = async () => {
+    const formdata = new FormData();
+    formdata.append('comment', input.comment);
+    formdata.append('user_id', 1);
+    formdata.append('material_id', 1);
+    let requestOptions = {
+        method: 'post',
+        body: formdata,
+        redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:3000/api/update-comment/"+item.id, requestOptions)
+        .then((response) => {
+            response.text();
+            navigation.push('MaterialList');
+            console.log(response);
+        })
+        .catch(error => console.log('error', error));
+
+}
+
+
+
+
+    return (
         <View style={styles.container}>
             <TextInput
-            style={styles.textInputStyle}
-            multiline={true}
-            // onChangeText={(commentText) => getComment(commentText)}
-            numberOfLines={3}
-            value={item.comment}
-            placeholder="Comment"
+                style={styles.textInputStyle}
+                onChangeText={(value) => onChangeComment(value)}
+                value={input.comment}
             />
             <View style={styles.row}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{textAlign: 'center', color: 'white'}}>Edit</Text>
+                <TouchableOpacity style={styles.button} onPress={updateComment}>
+                    <Text style={{ textAlign: 'center', color: 'white' }}>Edit</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.cancel}>
-                    <Text style={{textAlign: 'center', color: 'white'}}>Cancel</Text>
+                <TouchableOpacity style={styles.cancel} onPress={() => navigation.push('MaterialList')}>
+                    <Text style={{ textAlign: 'center', color: 'white' }}>Cancel</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -46,7 +79,7 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         borderRadius: 10,
         width: '100%',
-        
+
     },
     button: {
         marginTop: 10,
