@@ -10,11 +10,10 @@ const EditMaterial = ({ route, navigation }) => {
     const [pic, setPic] = useState("");
 
     useEffect(() => {
-
         setInput({
             name: item.name,
             description: item.description,
-            image: item.image
+            image: item.image,
         });
     }, [])
 
@@ -48,8 +47,10 @@ const EditMaterial = ({ route, navigation }) => {
         const formdata = new FormData();
         formdata.append('name', input.name);
         formdata.append('description', input.description);
-        formdata.append('user_id', 1);
+        formdata.append('user_id', item.user.id);
         formdata.append('image', getInfoImage)
+
+
         let requestOptions = {
             method: 'POST',
             body: formdata,

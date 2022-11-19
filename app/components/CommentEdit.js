@@ -26,8 +26,9 @@ const CommentEdit = ({ route, navigation }) => {
 const updateComment = async () => {
     const formdata = new FormData();
     formdata.append('comment', input.comment);
-    formdata.append('user_id', 1);
-    formdata.append('material_id', 1);
+    formdata.append('user_id', item.user_id);
+    formdata.append('material_id', item.material_id);
+
     let requestOptions = {
         method: 'post',
         body: formdata,
