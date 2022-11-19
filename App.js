@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
+import AddMaterial from './app/components/AddMaterial';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +39,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="Login"
-          component={LoginScreen}
+          component={MaterialList}
           options={{ headerShown: false }}
         />
         <Stack.Screen
