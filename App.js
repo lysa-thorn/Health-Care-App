@@ -39,7 +39,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="Login"
-          component={MaterialList}
+          component={LoginScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
