@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialDetail from './app/components/MaterialDetail';
 import MaterialList from './app/components/MaterialList';
 import CommentEdit from './app/components/CommentEdit';
+import EditMaterial from './app/components/EditMaterail';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -35,17 +36,7 @@ const App = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          options={{ headerShown: false }}
-          component={RegisterScreen}
-        />
+      <Stack.Navigator initialRouteName="MaterialList">
         <Stack.Screen name="MaterialList" 
           component={MaterialList} 
           options={{ headerShown: false }}
@@ -58,8 +49,11 @@ const App = () => {
           name="CommentEdit" 
           options={{ headerShown: false }}
           component={CommentEdit} />
-        
-       
+          <Stack.Screen 
+          name="EditMaterial" 
+          options={{ headerShown: false }}
+          component={EditMaterial}/>
+         
       </Stack.Navigator>
     </NavigationContainer>
 
