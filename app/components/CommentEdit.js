@@ -21,31 +21,27 @@ const CommentEdit = ({ route, navigation }) => {
     };
 
 
-///////////////////////////
-// Update comment
-const updateComment = async () => {
-    const formdata = new FormData();
-    formdata.append('comment', input.comment);
-    formdata.append('user_id', item.user_id);
-    formdata.append('material_id', item.material_id);
+    ///////////////////////////
+    // Update comment
+    const updateComment = async () => {
+        const formdata = new FormData();
+        formdata.append('comment', input.comment);
+        formdata.append('user_id', item.user_id);
+        formdata.append('material_id', item.material_id);
 
-    let requestOptions = {
-        method: 'post',
-        body: formdata,
-        redirect: 'follow'
-    };
-    fetch("http://127.0.0.1:3000/api/update-comment/"+item.id, requestOptions)
-        .then((response) => {
-            response.text();
-            navigation.push('MaterialList');
-            console.log(response);
-        })
-        .catch(error => console.log('error', error));
-
-}
-
-
-
+        let requestOptions = {
+            method: 'post',
+            body: formdata,
+            redirect: 'follow'
+        };
+        fetch("http://127.0.0.1:3000/api/update-comment/" + item.id, requestOptions)
+            .then((response) => {
+                response.text();
+                // navigation.push('MaterialDetail',{item})
+                console.log(item)
+            })
+            .catch(error => console.log('error', error));
+    }
 
     return (
         <View style={styles.container}>
@@ -58,7 +54,7 @@ const updateComment = async () => {
                 <TouchableOpacity style={styles.button} onPress={updateComment}>
                     <Text style={{ textAlign: 'center', color: 'white' }}>Edit</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.cancel} onPress={() => navigation.push('MaterialList')}>
+                <TouchableOpacity style={styles.cancel} onPress={() =>navigation.goBack() }>
                     <Text style={{ textAlign: 'center', color: 'white' }}>Cancel</Text>
                 </TouchableOpacity>
             </View>

@@ -43,7 +43,7 @@ const MaterialDetail = ({ route, navigation }) => {
   console.log(commentText);
 
   const addComment = () => {
-    fetch(`${url.base_url}/api/comments`, {
+    fetch(`${url.base_url}/comments`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -61,18 +61,13 @@ const MaterialDetail = ({ route, navigation }) => {
         console.log(res.headers);
         return res.json();
       })
-      .then(
-        (result) => {
-          console.log(result);
-        },
-        (error) => {
-          console.log(error);
-        }
-      )
+      .then(() => {
+        navigation.push('MaterialDetail', {item})
+      })
   };
   
   const deleteComment = (id) => {
-    fetch(`${url.base_url}/api/comments/${id}`, {
+    fetch(`${url.base_url}/comments/${id}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -90,14 +85,9 @@ const MaterialDetail = ({ route, navigation }) => {
         console.log(res.headers);
         return res.json();
       })
-      .then(
-        (result) => {
-          console.log(result);
-        },
-        (error) => {
-          console.log(error);
-        }
-      )
+      .then(() => {
+        navigation.push('MaterialDetail',{item})
+      })
   }
   useEffect(() => {
     fetchMaterial();
