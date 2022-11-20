@@ -17,8 +17,24 @@ import {
     Modal,
     Pressable,
 } from 'react-native';
-import Icon, { Button } from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MenuProvider } from 'react-native-popup-menu';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditMaterail from './EditMaterail';
+import COLORS from "../const/colors";
+import CustomButton from "../components/CustomButton";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const Stack = createNativeStackNavigator();
+
 
 const MaterialList = ({ navigation }) => {
     const [product, setMaterail] = useState([]);
@@ -105,7 +121,14 @@ const MaterialList = ({ navigation }) => {
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
             />
-           
+          <View style={{ flexDirection: 'row', marginLeft: 20,marginTop:6, marginBottom:6 }}>
+               <TouchableOpacity onPress={()=>navigation.navigate('AddMaterial')}>
+                   <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 10 }}>
+                       <Text style={{ color: 'white', textAlign: 'center' }}>Add Material</Text>
+                   </View>
+               </TouchableOpacity>
+           </View>
+
             <ScrollView style={styles.scrollView}>
                 {
                     product.map((value, index) => (
@@ -148,6 +171,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     scrollView: {
+        marginTop: 12,
         marginHorizontal: 20,
     },
     card: {
