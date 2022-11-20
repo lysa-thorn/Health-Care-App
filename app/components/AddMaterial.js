@@ -80,8 +80,7 @@ const AddMaterial = ({navigation }) => {
         })
         .then((response) => {
             response.text();
-            console.log(response)
-            // navigation.push('MaterialList')
+            navigation.push('MaterialList')
         })
         .then((result) => console.log(result))
         .catch((error) => console.log(error));
