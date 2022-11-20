@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Component } from 'react'
-import {TextInput, Alert, Image, View, Text } from 'react-native'
+import {TextInput, Alert, Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import CustomButton from "../components/CustomButton";
 import COLORS from "../const/colors";
 import * as ImagePicker from "react-native-image-picker"
 import url from '../const/url.json';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 const AddMaterial = ({navigation }) => {
@@ -20,9 +21,10 @@ const AddMaterial = ({navigation }) => {
 
     const inputDescription = (value) => {
         setDescription(value);
-    };    
+    };  
+    
       
-    const launchImage = () => {
+const launchImage = () => {
         let options = {
             maxHeight: 250,
             maxWidth: 350,
@@ -48,7 +50,9 @@ const AddMaterial = ({navigation }) => {
                 )
             }
             else {
+                
                 setResponse(response)
+
             }
         })
     }
@@ -65,9 +69,10 @@ const AddMaterial = ({navigation }) => {
 
         var paramBody = {}
         response.assets.map((data) => {
+            var base64 = "data:image/png;base64," + data.base64
             paramBody = {
                 name: title,
-                image: data.base64,
+                image: base64,
                 description: description,
                 user_id: 1
             }
@@ -80,21 +85,66 @@ const AddMaterial = ({navigation }) => {
         })
         .then((response) => {
             response.text();
-            navigation.push('MaterialList')
+            if(response.status == 200) {
+                navigation.navigate('MaterialList');
+                navigation.push('MaterialList');
+            }else {
+                Alert.alert('Error:', 'Require title and description');
+            }
         })
         .then((result) => console.log(result))
         .catch((error) => console.log(error));
     };
 
     return ( 
-        <View style={{flex: 1, flexDirection: 'column', paddingHorizontal: 16}}>
+        <View style={styles.container}>
+               <TouchableOpacity onPress={() => navigation.navigate('MaterialList')}>
+                <Icon name="arrow-back" size={30} />
+            </TouchableOpacity>
             
-              { !response?.assets && (
-               <CustomButton title="Add an image" backgroundColor={COLORS.green} onPress={() => launchImage()}  />
+           
+
+        <Text style={{
+            color: "#000", 
+            fontSize: 16,
+            marginTop: 12,
+            fontWeight: '500', 
+            marginBottom: 10,}}>Material Details</Text>
+
+        <Text style={{
+            color: "#000", 
+            fontSize: 11,
+            fontWeight: '500', 
+            marginBottom: 10,}}>Title</Text>
+
+            <TextInput
+                placeholder="title"
+                style={styles.input}
+                onChangeText={(value) => inputTitle(value)} />
+
+
+            <Text style={{
+                color: "#000", 
+                fontSize: 11,
+                fontWeight: '500', 
+                marginTop: 12,}}>Description</Text>
+            <TextInput
+                placeholder="Description"
+                style={styles.input}
+                onChangeText={(value) => inputDescription(value)} />
+
+        { !response?.assets && (
+               <View style={{ flexDirection: 'row', marginLeft: 10, }}>
+               <TouchableOpacity onPress={launchImage}>
+                   <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 10 }}>
+                       <Text style={{ color: 'white', textAlign: 'center' }}>Add an image</Text>
+                   </View>
+               </TouchableOpacity>
+           </View>
             )}
            
             { response?.assets && response?.assets.map((data) => (
-                <View key={data.uri} style={{marginVertical: 24, alignItems: 'center'}}>
+                <View key={data.uri} style={{marginVertical: 16,marginHorizontal:10, alignItems: 'center'}}>
                     <Image
                         resizeMode="cover"
                         resizeMethod="scale"
@@ -104,44 +154,28 @@ const AddMaterial = ({navigation }) => {
                 </View>
             ))} 
 
-          <Text style={{
-            color: "#000", 
-            fontSize: 16,
-            fontWeight: '500', 
-            marginBottom: 10,}}>Material Details</Text>
-
-            <TextInput
-                placeholder="Enter text here"
-                multiline={true}
-                onChangeText={(value) => inputTitle(value)}
-                style={{
-                color: 'black',
-                alignItems: 'center',
-                height: 40,
-                width: '100%',
-                backgroundColor: 'white',
-                borderRadius: 5,
-                textAlignVertical:'top'}}/>
-
-            <TextInput
-                multiline={true}
-                placeholder="Enter description"
-                onChangeText={(value) => inputDescription(value)}
-                style={{
-                    color: 'black',
-                    alignItems: 'center',
-                    height: 70,
-                    width: '100%',
-                    marginTop: 20,
-                    backgroundColor: 'white',
-                    borderRadius: 5,
-                    textAlignVertical:'top'}}/>
-
             { response?.assets && (
                 <CustomButton title="Post Material" backgroundColor={COLORS.green} onPress={() => uploadImage()} />
             )}
         </View>
     )
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 10,
+        color: '#555'
+    },
+
+})
 
 export default AddMaterial;

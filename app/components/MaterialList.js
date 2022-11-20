@@ -121,16 +121,13 @@ const MaterialList = ({ navigation }) => {
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
             />
-
-            <CustomButton 
-                title="Post Material" 
-                style={{
-                    marginLeft: 16,
-                    padding: 10,
-                    marginBottom: 16
-                }}
-                backgroundColor={COLORS.green} 
-                onPress={()=>navigation.navigate('AddMaterial')}  />
+          <View style={{ flexDirection: 'row', marginLeft: 20,marginTop:6, marginBottom:6 }}>
+               <TouchableOpacity onPress={()=>navigation.navigate('AddMaterial')}>
+                   <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 10 }}>
+                       <Text style={{ color: 'white', textAlign: 'center' }}>Add Material</Text>
+                   </View>
+               </TouchableOpacity>
+           </View>
 
             <ScrollView style={styles.scrollView}>
                 {
@@ -174,6 +171,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     scrollView: {
+        marginTop: 12,
         marginHorizontal: 20,
     },
     card: {
