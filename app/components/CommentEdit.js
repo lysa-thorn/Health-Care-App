@@ -7,6 +7,9 @@ import {
     Button,
     TouchableOpacity
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import url from '../const/url.json';
+
 const CommentEdit = ({ route, navigation }) => {
     const { item } = route.params;
     const [input, setInput] = useState({});
@@ -34,7 +37,7 @@ const CommentEdit = ({ route, navigation }) => {
             body: formdata,
             redirect: 'follow'
         };
-        fetch("http://127.0.0.1:3000/api/update-comment/" + item.id, requestOptions)
+        fetch(`${url.base_url}/update-comment/${item.id}`,requestOptions)
             .then((response) => {
                 response.text();
                 // navigation.push('MaterialDetail',{item})

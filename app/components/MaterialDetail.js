@@ -12,8 +12,11 @@ import {
 } from "react-native";
 import url from '../const/url.json';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from "moment"
 
 const MaterialDetail = ({ route, navigation }) => {
+
   const { item } = route.params;
   const [material, setMaterail] = useState([]);
   const [commentText, setCommentText] = useState([]);
@@ -21,15 +24,22 @@ const MaterialDetail = ({ route, navigation }) => {
   const [user, setUser] = useState({})
 
   const fetchMaterial = async () => {
+    const userData = JSON.parse(await AsyncStorage.getItem("userData"));
+    const settings = {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userData.access_token,
+        }
+    };
     try {
-      const response = await fetch(
-        url.base_url + '/materials/' + item.id
-      );
-
+      const response = await fetch(url.base_url + '/materials/' + item.id,settings);
       const getProduct = await response.json();
       setMaterail(getProduct.materail);
       setUser(getProduct.materail.user);
       setComment(getProduct.materail.comments)
+
     } catch (error) {
       console.error(error);
     }
@@ -40,14 +50,15 @@ const MaterialDetail = ({ route, navigation }) => {
     setCommentText(commentText);
 
   };
-  console.log(commentText);
 
-  const addComment = () => {
+  const addComment = async () => {
+    const userData = JSON.parse(await AsyncStorage.getItem("userData"));
     fetch(`${url.base_url}/comments`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + userData.access_token,
       },
       body: JSON.stringify({
         comment: commentText,
@@ -66,12 +77,14 @@ const MaterialDetail = ({ route, navigation }) => {
       })
   };
   
-  const deleteComment = (id) => {
+  const deleteComment = async (id) => {
+    const userData = JSON.parse(await AsyncStorage.getItem("userData"));
     fetch(`${url.base_url}/comments/${id}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + userData.access_token,
       },
       body: JSON.stringify({
         comment: commentText,
@@ -125,7 +138,10 @@ const MaterialDetail = ({ route, navigation }) => {
               </View>
               <View>
                 <Text style={styles.text}>Author: {user.fullname}</Text>
-                <Text style={styles.text}>Date: {material.created_at}</Text>
+                <Text style={styles.text}>{
+                  
+                  moment(material.created_at).format('LLLL')
+                }</Text>
               </View>
               <View style={styles.des}>
                 <Text style={styles.text}>

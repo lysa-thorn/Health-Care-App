@@ -4,37 +4,14 @@ import {
     StyleSheet,
     ScrollView,
     SafeAreaView,
-    RefreshControl,
-    StatusBar,
     Text,
     View,
     TextInput,
     Image,
-
     TouchableOpacity,
-    SearchBar,
-    Alert,
-    Modal,
-    Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { MenuProvider } from 'react-native-popup-menu';
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import EditMaterail from './EditMaterail';
-import COLORS from "../const/colors";
-import CustomButton from "../components/CustomButton";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-const Stack = createNativeStackNavigator();
-
 
 const MaterialList = ({ navigation }) => {
     const [product, setMaterail] = useState([]);
@@ -42,17 +19,18 @@ const MaterialList = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [filterData, setFilterData] = useState([]);
 
-    // AsyncStorage.getItem(
-    //     'userData',
-    //     JSON.stringify({...userData}),
-    // );
-
     const fetchProduct = async () => {
+        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
+        const settings = {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userData.access_token,
+            }
+        };
         try {
-            const response = await fetch(
-                url.base_url + '/materials'
-            );
-
+            const response = await fetch(url.base_url + '/materials',settings);
             const getProduct = await response.json();
             setMaterail(getProduct.materials);
             setFilterData(getProduct.materials);
@@ -67,10 +45,17 @@ const MaterialList = ({ navigation }) => {
 
     };
 
-    const deleteMaterial = (id) => {
-        fetch(`${url.base_url}/materials/${id}`, {
-            method: "DELETE"
-        })
+    const deleteMaterial = async (id) => {
+        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
+        const settings = {
+            method: 'delete',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userData.access_token,
+            }
+        };
+        fetch(`${url.base_url}/materials/${id}`,settings)
             .then(res => {
                 console.log(res.status);
                 console.log(res.headers);

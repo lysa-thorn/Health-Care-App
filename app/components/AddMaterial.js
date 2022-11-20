@@ -5,11 +5,10 @@ import COLORS from "../const/colors";
 import * as ImagePicker from "react-native-image-picker"
 import url from '../const/url.json';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const AddMaterial = ({navigation }) => {
-
-       
     const [images, setImages] = useState({});
     const [response, setResponse] = React.useState({});
     const [title, setTitle] = React.useState({});
@@ -57,16 +56,8 @@ const launchImage = () => {
         })
     }
 
-    const uploadImage = () => {
-
-        var myHeaders = new Headers();
-        myHeaders.append(
-            'Authorization',
-            'Bearer 62ddfa7559d5fdec64517e3ab70ee4fd60b2244e71fa042a44f914f8fa688263'
-        );
-
-        myHeaders.append('Content-Type', 'application/json');
-
+    const uploadImage = async () => {
+        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
         var paramBody = {}
         response.assets.map((data) => {
             var base64 = "data:image/png;base64," + data.base64
@@ -80,8 +71,12 @@ const launchImage = () => {
 
         fetch(url.base_url + '/materials', {
             method: 'POST',
-            headers: myHeaders,
             body: JSON.stringify(paramBody),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userData.access_token,
+            }
         })
         .then((response) => {
             response.text();
