@@ -60,7 +60,10 @@ const App = () => {
           options={{ headerShown: false }}
           component={CommentEdit} />
         
-       
+        <Stack.Screen 
+          name="AddMaterial" 
+          options={{ headerShown: false }}
+          component={AddMaterial} />
       </Stack.Navigator>
     </NavigationContainer>
 

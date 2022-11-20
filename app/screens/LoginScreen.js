@@ -70,6 +70,8 @@ const LoginScreen = ({ navigation }) => {
 
       if (res) {
 
+        console.log(res.body)
+
       let  userData = await res.json();
         if (userData.phone == inputs.phone && inputs.password) {
           navigation.navigate('MaterialList');

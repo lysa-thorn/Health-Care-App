@@ -25,6 +25,8 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EditMaterail from './EditMaterail';
+import COLORS from "../const/colors";
+import CustomButton from "../components/CustomButton";
 const Stack = createNativeStackNavigator();
 
 const MaterialList = ({ navigation }) => {
@@ -104,6 +106,16 @@ const MaterialList = ({ navigation }) => {
                 underlineColorAndroid="transparent"
                 placeholder="Search Here"
             />
+
+            <CustomButton 
+                title="Post Material" 
+                style={{
+                    marginLeft: 16,
+                    padding: 10,
+                    marginBottom: 16
+                }}
+                backgroundColor={COLORS.green} 
+                onPress={()=>navigation.navigate('AddMaterial')}  />
 
             <ScrollView style={styles.scrollView}>
                 {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Component } from 'react'
 import {TextInput, Alert, Image, View, Text } from 'react-native'
 import CustomButton from "../components/CustomButton";
-import CustomInput from "../components/CustomInput";
 import COLORS from "../const/colors";
 import * as ImagePicker from "react-native-image-picker"
 import url from '../const/url.json';
@@ -74,7 +73,7 @@ const AddMaterial = ({navigation }) => {
             }
         })
 
-        fetch(url.base_url + '/api/materials', {
+        fetch(url.base_url + '/materials', {
             method: 'POST',
             headers: myHeaders,
             body: JSON.stringify(paramBody),
@@ -90,6 +89,7 @@ const AddMaterial = ({navigation }) => {
 
     return ( 
         <View style={{flex: 1, flexDirection: 'column', paddingHorizontal: 16}}>
+            
               { !response?.assets && (
                <CustomButton title="Add an image" backgroundColor={COLORS.green} onPress={() => launchImage()}  />
             )}
@@ -114,7 +114,6 @@ const AddMaterial = ({navigation }) => {
             <TextInput
                 placeholder="Enter text here"
                 multiline={true}
-                numberOfLines={5}
                 onChangeText={(value) => inputTitle(value)}
                 style={{
                 color: 'black',
@@ -127,7 +126,6 @@ const AddMaterial = ({navigation }) => {
 
             <TextInput
                 multiline={true}
-                numberOfLines={5}
                 placeholder="Enter description"
                 onChangeText={(value) => inputDescription(value)}
                 style={{
