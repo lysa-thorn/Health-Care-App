@@ -10,9 +10,12 @@ import {
     View,
     TextInput,
     Image,
-    Button,
+
     TouchableOpacity,
-    SearchBar
+    SearchBar,
+    Alert,
+    Modal,
+    Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MenuProvider } from 'react-native-popup-menu';
@@ -27,15 +30,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EditMaterail from './EditMaterail';
 import COLORS from "../const/colors";
 import CustomButton from "../components/CustomButton";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const Stack = createNativeStackNavigator();
 
-const MaterialList = ({ navigation }) => {
 
+const MaterialList = ({ navigation }) => {
     const [product, setMaterail] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
     const [filterData, setFilterData] = useState([]);
 
+    // AsyncStorage.getItem(
+    //     'userData',
+    //     JSON.stringify({...userData}),
+    // );
 
     const fetchProduct = async () => {
         try {
@@ -75,6 +85,9 @@ const MaterialList = ({ navigation }) => {
                     console.log(error);
                 }
             )
+            .then(() => {
+                navigation.push('MaterialList')
+            })
     };
 
     const searchFilterFunction = (text) => {
@@ -96,6 +109,8 @@ const MaterialList = ({ navigation }) => {
     useEffect(() => {
         fetchProduct();
     }, []);
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -126,14 +141,14 @@ const MaterialList = ({ navigation }) => {
                                 <Image source={{ uri: value.image }} style={{ height: 200 }} />
                             </TouchableOpacity>
                             <View style={styles.descContainer}>
-                                <Image source={{ uri: value.user.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
+                                <Image source={{ uri: value.image }} style={{ width: 50, height: 50, borderRadius: 25 }} />
                                 <View style={styles.videoDetails}>
                                     <Text numberOfLines={2} style={styles.videoTitle}>{value.name}</Text>
                                     <Text numberOfLines={1} style={styles.videoStats}>{value.description}</Text>
                                 </View>
                                 <View style={styles.rightNav}>
                                     <TouchableOpacity>
-                                        <Icon name="edit" size={30} color="#0000FF" />
+                                        <Icon name="edit" onPress={()=>navigation.navigate('EditMaterial', {item:value})} size={30} color="#0000FF" />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => deleteMaterial(value.id)}>
                                         <Icon name="delete" size={30} color="#FF0000" />
@@ -192,12 +207,135 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         width: '90%'
     },
+    editInput: {
+        backgroundColor: "#E8E4E4",
+        padding: 10,
+        marginVertical: 8,
+
+        borderColor: '#000',
+        borderRadius: 10,
+
+    },
 
     menuButton: {
         paddingVertical: 20,
         paddingHorizontal: 30,
         borderRadius: 10,
     },
+
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+        marginVertical: 8,
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontWeight: 'bold',
+        fontSize: 25
+    },
+    btn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 23,
+        borderRadius: 20,
+        elevation: 3,
+        backgroundColor: 'black',
+    },
+
+    // modal edit
+    editInput: {
+        backgroundColor: "#E8E4E4",
+        padding: 10,
+        marginVertical: 8,
+
+        borderColor: '#000',
+        borderRadius: 10,
+
+    },
+
+    menuButton: {
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+        borderRadius: 10,
+    },
+
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+        marginVertical: 8,
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontWeight: 'bold',
+        fontSize: 25
+    },
+    btn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 23,
+        borderRadius: 20,
+        elevation: 3,
+        backgroundColor: 'black',
+    }
+
 
 
 });

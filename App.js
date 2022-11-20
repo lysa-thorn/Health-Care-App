@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialDetail from './app/components/MaterialDetail';
 import MaterialList from './app/components/MaterialList';
 import CommentEdit from './app/components/CommentEdit';
+import EditMaterial from './app/components/EditMaterail';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Platform,
@@ -36,8 +37,8 @@ const App = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <Stack.Navigator>
-        <Stack.Screen
+      <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Screen
           name="Login"
           component={LoginScreen}
           options={{ headerShown: false }}
@@ -64,6 +65,11 @@ const App = () => {
           name="AddMaterial" 
           options={{ headerShown: false }}
           component={AddMaterial} />
+          <Stack.Screen 
+          name="EditMaterial" 
+          options={{ headerShown: false }}
+          component={EditMaterial}/>
+         
       </Stack.Navigator>
     </NavigationContainer>
 

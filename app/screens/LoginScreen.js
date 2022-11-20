@@ -73,6 +73,7 @@ const LoginScreen = ({ navigation }) => {
         console.log(res.body)
 
       let  userData = await res.json();
+      // console.log(userData);
         if (userData.phone == inputs.phone && inputs.password) {
           navigation.navigate('MaterialList');
           AsyncStorage.setItem(
