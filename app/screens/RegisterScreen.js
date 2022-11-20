@@ -5,6 +5,7 @@ import COLORS from '../const/colors';
 import CustomInput from '../components/CustomInput';
 import CustomButton from "../components/CustomButton";
 import Loader from "../components/Loader";
+import url from '../const/url.json';
 
 const RegisterScreen = ({ navigation }) => {
 

@@ -36,7 +36,17 @@ const App = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <Stack.Navigator initialRouteName="MaterialList">
+      <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          options={{ headerShown: false }}
+          component={RegisterScreen}
+        />
         <Stack.Screen name="MaterialList" 
           component={MaterialList} 
           options={{ headerShown: false }}

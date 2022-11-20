@@ -18,6 +18,7 @@ import {
     Pressable,
 } from 'react-native';
 import Icon, { Button } from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MaterialList = ({ navigation }) => {
     const [product, setMaterail] = useState([]);
@@ -25,6 +26,10 @@ const MaterialList = ({ navigation }) => {
     const [search, setSearch] = useState('');
     const [filterData, setFilterData] = useState([]);
 
+    // AsyncStorage.getItem(
+    //     'userData',
+    //     JSON.stringify({...userData}),
+    // );
 
     const fetchProduct = async () => {
         try {
