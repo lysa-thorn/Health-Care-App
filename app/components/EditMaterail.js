@@ -6,15 +6,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const EditMaterial = ({ route, navigation }) => {
     const { item } = route.params;
     const [input, setInput] = useState({});
-    const [getInfoImage, setImage] = useState({});
+    const [getInfoImage, setImage] = useState("");
     const [pic, setPic] = useState("");
 
     useEffect(() => {
         setInput({
             name: item.name,
             description: item.description,
-            image: item.image,
+            // image: item.image,
         });
+        setImage(item.image)
     }, [])
 
     const onChangeName = (value) => {
@@ -40,7 +41,6 @@ const EditMaterial = ({ route, navigation }) => {
             name: images.assets[0].fileName
         }
         setImage(file);
-        // setPic('data:image/png;base64,'+images.assets[0].base64)
     }
 
     const updateMaterail = async () => {
@@ -48,9 +48,7 @@ const EditMaterial = ({ route, navigation }) => {
         formdata.append('name', input.name);
         formdata.append('description', input.description);
         formdata.append('user_id', item.user.id);
-        formdata.append('image', getInfoImage)
-
-
+        formdata.append('image',getInfoImage)
         let requestOptions = {
             method: 'POST',
             body: formdata,
@@ -86,7 +84,6 @@ const EditMaterial = ({ route, navigation }) => {
                 style={styles.input}
                 onChangeText={(value) => onChangeDescription(value)}
                 value={input.description} />
-            <Image style={styles.image} source={{ uri: input.image }} />
 
             <View style={{ flexDirection: 'row', marginLeft: 20, }}>
                 <TouchableOpacity onPress={openGallary}>
