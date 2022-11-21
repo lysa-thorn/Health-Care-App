@@ -19,26 +19,30 @@ import {
 import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
 import AddMaterial from './app/components/AddMaterial';
+import Profile from './app/components/Profile';
+
 
 const Stack = createNativeStackNavigator();
 
+function HeaderTitle({ navigation }) {
+  return (
+    <View style={styles.navBar}>
+      <Image source={require('./app/images/main_logo.png')}
+        style={{ width: 100, height: 22 }} />
+      <View style={styles.rightNav}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Icon style={styles.navItem} name="account-circle" size={25} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
 const App = () => {
-  const [initialRouteName, setInitialRouteName] = React.useState('');
   return (
     <NavigationContainer>
-      <View style={styles.navBar}>
-        <Image source={require('./app/images/main_logo.png')} style={{ width: 98, height: 22 }} />
-        <View style={styles.rightNav}>
-          <TouchableOpacity>
-            <Icon style={styles.navItem} name="search" size={25} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Icon style={styles.navItem} name="account-circle" size={25} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <Stack.Navigator initialRouteName="LoginScreen">
-      <Stack.Screen
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
           name="Login"
           component={LoginScreen}
           options={{ headerShown: false }}
@@ -48,46 +52,69 @@ const App = () => {
           options={{ headerShown: false }}
           component={RegisterScreen}
         />
-        <Stack.Screen name="MaterialList" 
-          component={MaterialList} 
-          options={{ headerShown: false }}
+        <Stack.Screen
+          name="MaterialList"
+          component={MaterialList}
+          options={({ navigation }) => {
+            return {
+              headerTitle: () => <HeaderTitle navigation={navigation} />,
+            };
+          }}
         />
-        <Stack.Screen 
-          name="MaterialDetail" 
-          options={{ headerShown: false }}
+        <Stack.Screen name="Profile"
+          component={Profile}
+          options={({ navigation }) => {
+            return {
+              headerTitle: () => <HeaderTitle navigation={navigation} />,
+            };
+          }}
+        />
+        <Stack.Screen
+          name="MaterialDetail"
+          options={({ navigation }) => {
+            return {
+              headerTitle: () => <HeaderTitle navigation={navigation} />,
+            };
+          }}
           component={MaterialDetail} />
-        <Stack.Screen 
-          name="CommentEdit" 
+        <Stack.Screen
+          name="CommentEdit"
           options={{ headerShown: false }}
           component={CommentEdit} />
-        
-        <Stack.Screen 
-          name="AddMaterial" 
-          options={{ headerShown: false }}
+
+        <Stack.Screen
+          name="AddMaterial"
+          options={({ navigation }) => {
+            return {
+              headerTitle: () => <HeaderTitle navigation={navigation} />,
+            };
+          }}
           component={AddMaterial} />
-          <Stack.Screen 
-          name="EditMaterial" 
-          options={{ headerShown: false }}
-          component={EditMaterial}/>
-         
+        <Stack.Screen
+          name="EditMaterial"
+          options={({ navigation }) => {
+            return {
+              headerTitle: () => <HeaderTitle navigation={navigation} />,
+            };
+          }}
+          component={EditMaterial} />
+
       </Stack.Navigator>
     </NavigationContainer>
 
   );
 }
- 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   navBar: {
     height: 55,
     backgroundColor: 'white',
-    elevation: 3,
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width:300
   },
   rightNav: {
     flexDirection: 'row'
