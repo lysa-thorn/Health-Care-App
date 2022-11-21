@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image,TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import url from '../const/url.json';
 
-const Profile = ({navigation}) => {
-    const [getProfile,setProfile] = useState({});
+const Profile = ({ navigation }) => {
+    const [getProfile, setProfile] = useState({});
     const fetchData = async () => {
         const userData = JSON.parse(await AsyncStorage.getItem("userData"));
         const settings = {
@@ -18,10 +18,31 @@ const Profile = ({navigation}) => {
         };
 
         try {
-            const response = await fetch(url.base_url + '/profile',settings);
+            const response = await fetch(url.base_url + '/profile', settings);
             const profile = await response.json();
             setProfile(profile);
 
+        } catch (error) {
+            console.error(error);
+        } finally {
+        }
+    }
+
+    const logout = async () => {
+        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
+        const settings = {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userData.access_token,
+            }
+        };
+
+        try {
+            const response = await fetch(url.base_url + '/logout', settings);
+            // const pro = await response.json();
+            navigation.navigate('Login'); 
         } catch (error) {
             console.error(error);
         } finally {
@@ -52,14 +73,25 @@ const Profile = ({navigation}) => {
             </View>
             <View style={styles.body}>
                 <View style={styles.btnPro}>
-                    <TouchableOpacity>
-                        <Text style={{ 
-                            color: '#000', 
+                    <TouchableOpacity onPress={() => navigation.navigate('editProfile')}>
+                        <Text style={{
+                            color: '#000',
                             textAlign: 'center',
-                            padding:10,
-                            fontSize:20,
-                            fontWeight:"600"
-                            }}>Update Profile</Text>
+                            padding: 10,
+                            fontSize: 20,
+                            fontWeight: "600"
+                        }}>Update Profile</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.btnLogout}>
+                    <TouchableOpacity onPress={logout}>
+                        <Text style={{
+                            color: '#000',
+                            textAlign: 'center',
+                            padding: 10,
+                            fontSize: 20,
+                            fontWeight: "600"
+                        }}>Logout</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -100,9 +132,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#778899',
         height: 500,
     },
-    btnPro:{
-        backgroundColor:'blue',
-        borderRadius:10,
+    btnPro: {
+        backgroundColor: '#13aa52',
+        borderRadius: 10,
+    },
+    btnLogout:{
+        backgroundColor: '#13aa52',
+        borderRadius: 10,
+        marginTop:10
     }
 });
 

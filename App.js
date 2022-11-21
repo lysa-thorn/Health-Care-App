@@ -20,7 +20,7 @@ import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
 import AddMaterial from './app/components/AddMaterial';
 import Profile from './app/components/Profile';
-
+// import editProfile from './app/components/editProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -98,7 +98,14 @@ const App = () => {
             };
           }}
           component={EditMaterial} />
-
+        {/* <Stack.Screen
+          name="editProfile"
+          options={({ navigation }) => {
+            return {
+              headerTitle: () => <HeaderTitle navigation={navigation} />,
+            };
+          }}
+          component={editProfile} /> */}
       </Stack.Navigator>
     </NavigationContainer>
 
