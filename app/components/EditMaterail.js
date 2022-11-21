@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image, Butt
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import url from '../const/url.json'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditMaterial = ({ route, navigation }) => {
     const { item } = route.params;
@@ -45,6 +46,7 @@ const EditMaterial = ({ route, navigation }) => {
     }
 
     const updateMaterail = async () => {
+        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
         const formdata = new FormData();
         formdata.append('name', input.name);
         formdata.append('description', input.description);
@@ -53,7 +55,11 @@ const EditMaterial = ({ route, navigation }) => {
         let requestOptions = {
             method: 'POST',
             body: formdata,
-            redirect: 'follow'
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userData.access_token,
+            }
         };
 
         fetch(url.base_url+"/update-material/" + item.id, requestOptions)
