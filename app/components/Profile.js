@@ -39,14 +39,14 @@ const Profile = ({ navigation }) => {
             }
         };
 
-        try {
-            const response = await fetch(url.base_url + '/logout', settings);
-            // const pro = await response.json();
-            navigation.navigate('Login'); 
-        } catch (error) {
-            console.error(error);
-        } finally {
-        }
+        fetch(url.base_url+"/logout", settings)
+            .then(response => response.text())
+            .then(
+                result => console.log(result),
+                navigation.navigate('Login')
+            )
+            .catch(error => console.log('error', error));
+
     }
 
     useEffect(() => {
@@ -136,10 +136,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#13aa52',
         borderRadius: 10,
     },
-    btnLogout:{
+    btnLogout: {
         backgroundColor: '#13aa52',
         borderRadius: 10,
-        marginTop:10
+        marginTop: 10
     }
 });
 
