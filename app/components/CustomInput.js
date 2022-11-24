@@ -41,7 +41,7 @@ const CustomInput = ({
                     {password && <Icon
                         onPress={() => setHidePwd(!hidePwd)}
                         style={{fontSize: 22, color: COLORS.darkblue}}
-                        name={hidePwd ? 'visibility' : 'visibility_off'}
+                        name={hidePwd ? 'visibility' : 'visibility-off'}
                     />
                     }
                 </View>

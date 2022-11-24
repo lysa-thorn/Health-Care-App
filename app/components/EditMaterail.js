@@ -17,7 +17,7 @@ const EditMaterial = ({ route, navigation }) => {
             description: item.description,
             // image: item.image,
         });
-        setImage(item.image)
+        // setImage(item.image)
     }, [])
 
     const onChangeName = (value) => {
@@ -37,12 +37,12 @@ const EditMaterial = ({ route, navigation }) => {
             includeBase64: true
         }
         const images = await launchImageLibrary(options);
-        const file = {
-            uri: images.assets[0].uri,
-            type: images.assets[0].type,
-            name: images.assets[0].fileName
-        }
-        setImage(file);
+        // const file = {
+        //     uri: images.assets[0].uri,
+        //     type: images.assets[0].type,
+        //     name: images.assets[0].fileName
+        // }
+        setImage(images.assets[0].base64);
     }
 
     const updateMaterail = async () => {
@@ -66,7 +66,7 @@ const EditMaterial = ({ route, navigation }) => {
             .then((response) => {
                 response.text();
                 navigation.push('MaterialList');
-                console.log(response);
+                // console.log(response);
             })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
