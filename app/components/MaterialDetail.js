@@ -110,9 +110,9 @@ const MaterialDetail = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View>
-          <TouchableOpacity onPress={() => navigation.navigate('MaterialList')}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('MaterialList')}>
             <Icon name="arrow-back" size={30} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={styles.card}>
             <View style={styles.cardheader}>
               <Text style={styles.title}>

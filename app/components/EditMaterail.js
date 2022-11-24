@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image, Button } from "react-native";
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import url from '../const/url.json'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditMaterial = ({ route, navigation }) => {
     const { item } = route.params;
@@ -15,7 +17,7 @@ const EditMaterial = ({ route, navigation }) => {
             description: item.description,
             // image: item.image,
         });
-        setImage(item.image)
+        // setImage(item.image)
     }, [])
 
     const onChangeName = (value) => {
@@ -35,15 +37,16 @@ const EditMaterial = ({ route, navigation }) => {
             includeBase64: true
         }
         const images = await launchImageLibrary(options);
-        const file = {
-            uri: images.assets[0].uri,
-            type: images.assets[0].type,
-            name: images.assets[0].fileName
-        }
-        setImage(file);
+        // const file = {
+        //     uri: images.assets[0].uri,
+        //     type: images.assets[0].type,
+        //     name: images.assets[0].fileName
+        // }
+        setImage(images.assets[0].base64);
     }
 
     const updateMaterail = async () => {
+        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
         const formdata = new FormData();
         formdata.append('name', input.name);
         formdata.append('description', input.description);
@@ -52,14 +55,18 @@ const EditMaterial = ({ route, navigation }) => {
         let requestOptions = {
             method: 'POST',
             body: formdata,
-            redirect: 'follow'
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userData.access_token,
+            }
         };
 
-        fetch("http://127.0.0.1:3000/api/update-material/" + item.id, requestOptions)
+        fetch(url.base_url+"/update-material/" + item.id, requestOptions)
             .then((response) => {
                 response.text();
                 navigation.push('MaterialList');
-                console.log(response);
+                // console.log(response);
             })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -68,9 +75,9 @@ const EditMaterial = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('MaterialList')}>
+            {/* <TouchableOpacity onPress={() => navigation.navigate('MaterialList')}>
                 <Icon name="arrow-back" size={30} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <View style={{ margin: 30 }}>
                 <Text style={{ textAlign: "center", fontSize: 20, color: '#000' }}>Update Material</Text>
             </View>
@@ -85,15 +92,20 @@ const EditMaterial = ({ route, navigation }) => {
                 onChangeText={(value) => onChangeDescription(value)}
                 value={input.description} />
 
-            <View style={{ flexDirection: 'row', marginLeft: 20, }}>
+            <View style={{ flexDirection: 'row', marginLeft: 15,marginTop:10 }}>
                 <TouchableOpacity onPress={openGallary}>
-                    <View style={{ backgroundColor: 'blue', padding: 10, borderRadius: 10 }}>
+                    <View style={{ backgroundColor: '#13aa52', padding: 10, borderRadius: 10 }}>
                         <Text style={{ color: 'white', textAlign: 'center' }}>Open Gallary</Text>
                     </View>
                 </TouchableOpacity>
             </View>
 
-            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: "center" }}>
+            <View style={{ 
+                flexDirection: 'row', 
+                marginTop: 20, 
+                justifyContent: "center",
+                width:"100%"
+                }}>
                 <TouchableOpacity onPress={updateMaterail}>
                     <View style={styles.btnUpdate}>
                         <Text style={{ color: 'white', textAlign: 'center' }}>Update</Text>
@@ -103,7 +115,6 @@ const EditMaterial = ({ route, navigation }) => {
         </View>
     )
 }
-
 
 
 const styles = StyleSheet.create({
@@ -152,10 +163,13 @@ const styles = StyleSheet.create({
         margin: 20
     },
     btnUpdate: {
-        backgroundColor: 'blue',
-        padding: 10,
-        width: 150,
-        borderRadius: 10
+        backgroundColor: '#13aa52',
+        height: 45,
+        borderRadius: 10,
+        alignItems: 'center',
+        padding: 12,
+        marginTop: 20,
+        width:350
     },
 })
 

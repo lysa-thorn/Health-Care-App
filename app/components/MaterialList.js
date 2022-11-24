@@ -109,7 +109,9 @@ const MaterialList = ({ navigation }) => {
           <View style={{ flexDirection: 'row', marginLeft: 20,marginTop:6, marginBottom:6 }}>
                <TouchableOpacity onPress={()=>navigation.navigate('AddMaterial')}>
                    <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 10 }}>
-                       <Text style={{ color: 'white', textAlign: 'center' }}>Add Material</Text>
+                       <Text style={{ color: 'white', textAlign: 'center' }}>
+                            <Icon name="add" size={30} />
+                       </Text>
                    </View>
                </TouchableOpacity>
            </View>
